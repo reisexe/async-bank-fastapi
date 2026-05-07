@@ -1,16 +1,22 @@
 #!/usr/bin/env bash
-
-# Para o script se der erro
 set -e
 
-# Garante que o Python encontre a pasta 'src' e a raiz
+# Tenta encontrar se o comando é python ou python3
+if command -v python3 >/dev/null 2>&1; then
+    PYTHON_EXE=$(command -v python3)
+elif command -v python >/dev/null 2>&1; then
+    PYTHON_EXE=$(command -v python)
+else
+    echo "Erro crítico: Python não encontrado no ambiente de deploy."
+    exit 1
+fi
+
+echo "Usando executável: $PYTHON_EXE"
 export PYTHONPATH=$PYTHONPATH:$(pwd)
 
 echo "Aplicando migrações do banco de dados..."
-# Usamos 'python' (sem o 3) porque o Render mapeia esse comando 
-# para o ambiente virtual onde ele instalou o seu requirements.txt
-python -m alembic upgrade head
+$PYTHON_EXE -m alembic upgrade head
 
 echo "Iniciando o servidor..."
-# Ajustado para src.main:app porque seu main.py está dentro da pasta src
-python -m uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-10000}
+# Usando src.main:app porque seu main.py está na pasta src
+$PYTHON_EXE -m uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-10000}
