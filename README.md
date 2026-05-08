@@ -1,5 +1,5 @@
 # Async Bank API - FastAPI
-Este projeto é uma API de sistema bancário assíncrono desenvolvida como parte do desafio de Análise e Desenvolvimento de Sistemas.
+Este projeto é uma API de sistema bancário assíncrono desenvolvida como parte do desafio do curso de Backend com Python da DIO. 
 
 ## Tecnologias Utilizadas
 - **Python 3.13**
