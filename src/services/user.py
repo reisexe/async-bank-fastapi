@@ -3,7 +3,6 @@ import bcrypt
 from src.database import database
 from src.models.user import users
 
-
 class UserService:
     async def create(self, username: str, password: str) -> int:
         hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
